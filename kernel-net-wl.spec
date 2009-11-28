@@ -4,7 +4,7 @@
 
 %define		_enable_debug_packages	0
 
-%define		rel	0.2
+%define		rel	0.3
 %define		pname	wl
 Summary:	Linux kernel module to BCM network cards
 Name:		%{pname}%{_alt_kernel}
@@ -73,7 +73,7 @@ EOF
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%install_kernel_modules -m wl -d kernel/net/wireless
+%install_kernel_modules -m wl -d kernel/drivers/net/wireless
 install %{SOURCE2} .
 
 %clean
@@ -88,4 +88,4 @@ rm -rf $RPM_BUILD_ROOT
 %files -n kernel%{_alt_kernel}-net-wl
 %defattr(644,root,root,755)
 %doc lib/LICENSE.txt README.txt
-/lib/modules/%{_kernel_ver}/kernel/net/wireless/*.ko*
+/lib/modules/%{_kernel_ver}/kernel/drivers/net/wireless/*.ko*
