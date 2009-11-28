@@ -74,6 +74,7 @@ EOF
 %install
 rm -rf $RPM_BUILD_ROOT
 %install_kernel_modules -m wl -d kernel/net/wireless
+install %{SOURCE2} .
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -86,5 +87,5 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n kernel%{_alt_kernel}-net-wl
 %defattr(644,root,root,755)
-%doc lib/LICENSE.txt
+%doc lib/LICENSE.txt README.txt
 /lib/modules/%{_kernel_ver}/kernel/net/wireless/*.ko*
