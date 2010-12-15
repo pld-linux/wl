@@ -8,16 +8,16 @@
 %define		pname	wl
 Summary:	Linux kernel module to BCM network cards
 Name:		%{pname}%{_alt_kernel}
-Version:	5.10.91.9.3
+Version:	5.60.246.6
 Release:	%{rel}
 License:	other
 Group:		Base/Kernel
-Source0:	http://www.broadcom.com/docs/linux_sta/hybrid-portsrc-x86_32-v%{version}.tar.gz
-# Source0-md5:	15890e1f9afe844adf2e251d390e28ac
-Source1:	http://www.broadcom.com/docs/linux_sta/hybrid-portsrc-x86_64-v%{version}.tar.gz
-# Source1-md5:	ed255d2c98690ef76757d95b2d9e6b32
+Source0:	http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_x86-32_v%{version}.tar.gz
+# Source0-md5:	1d2561cfe5d6c72ab6838a35de4010db
+Source1:	http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_x86-64_v%{version}.tar.gz
+# Source1-md5:	790a85a298995922fcdd5a209b9873df
 Source2:	http://www.broadcom.com/docs/linux_sta/README.txt
-# Source2-md5:	b3510ce9efc0395021b317f54f645b5d
+# Source2-md5:	a3ae8e73371135a3f2a0f17d55bc82ec
 URL:		http://www.broadcom.com/support/802.11/linux_sta.php
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRequires:	rpmbuild(macros) >= 1.379
