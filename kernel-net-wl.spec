@@ -17,7 +17,7 @@ Source0:	http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_x86-32_v%{version
 Source1:	http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_x86-64_v%{version}.tar.gz
 # Source1-md5:	790a85a298995922fcdd5a209b9873df
 Source2:	http://www.broadcom.com/docs/linux_sta/README.txt
-# Source2-md5:	a3ae8e73371135a3f2a0f17d55bc82ec
+# Source2-md5:	04b0c96665b520709811a0c80a9e8ef5
 URL:		http://www.broadcom.com/support/802.11/linux_sta.php
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRequires:	rpmbuild(macros) >= 1.379
