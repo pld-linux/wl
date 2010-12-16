@@ -6,7 +6,6 @@
 
 %define		rel	1
 %define		pname	wl
-#%define		tname	kernel%{_alt_kernel}-net-wl
 Summary:	Linux kernel module to BCM network cards
 Name:		%{pname}%{_alt_kernel}
 Version:	5.60.246.6
