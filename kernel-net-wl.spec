@@ -6,6 +6,7 @@
 
 %define		rel	1
 %define		pname	wl
+#%define		tname	kernel%{_alt_kernel}-net-wl
 Summary:	Linux kernel module to BCM network cards
 Name:		%{pname}%{_alt_kernel}
 Version:	5.60.246.6
@@ -81,6 +82,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	-n kernel%{_alt_kernel}-net-wl
 %depmod %{_kernel_ver}
+
+%posttrans -n kernel%{_alt_kernel}-net-wl
+%banner -e kernel%{_alt_kernel}-net-wl <<EOF
+WARNING! That is not GPL software. 
+Before you use it read /usr/share/doc/kernel-net-wl-%{version}/LICENSE.txt.gz
+EOF
 
 %postun	-n kernel%{_alt_kernel}-net-wl
 %depmod %{_kernel_ver}
