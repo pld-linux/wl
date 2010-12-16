@@ -84,8 +84,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %posttrans -n kernel%{_alt_kernel}-net-wl
 %banner -e kernel%{_alt_kernel}-net-wl <<EOF
-WARNING! That is not GPL software. 
-Before you use it read /usr/share/doc/kernel-net-wl-%{version}/LICENSE.txt.gz
+WARNING! This kernel module is not GPL licensed.
+Before using it be sure to accept license: %{_docdir}/kernel%{_alt_kernel}-net-wl-%{version}/LICENSE.txt*
 EOF
 
 %postun	-n kernel%{_alt_kernel}-net-wl
