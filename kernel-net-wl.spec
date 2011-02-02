@@ -4,7 +4,7 @@
 
 %define		_enable_debug_packages	0
 
-%define		rel	1
+%define		rel	2
 %define		pname	wl
 Summary:	Linux kernel module to BCM network cards
 Name:		%{pname}%{_alt_kernel}
