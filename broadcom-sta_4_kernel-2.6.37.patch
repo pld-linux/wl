@@ -1,0 +1,16 @@
+*** src/wl/sys/wl_linux.c~	2010-12-15 10:58:07.000000000 +0900
+--- src/wl/sys/wl_linux.c	2011-02-06 20:53:15.056000007 +0900
+***************
+*** 482,488 ****
+--- 482,492 ----
+  #ifdef WL_ALL_PASSIVE
+  		spin_lock_init(&wl->txq_lock);
+  #endif 
++ #ifndef init_MUTEX
++   	        sema_init(&wl->sem,1);
++ #else
+  		init_MUTEX(&wl->sem);
++ #endif
+  	}
+  
+  	if (!(wl->wlc = wlc_attach((void *) wl, vendor, device, unit, wl->piomode,
