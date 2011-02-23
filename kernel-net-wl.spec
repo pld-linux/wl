@@ -9,7 +9,7 @@
 Summary:	Linux kernel module for BCM network cards
 Name:		%{pname}%{_alt_kernel}
 Version:	5.100.82.38
-%define		file_ver	%(echo %{version} | awk '{gsub("\\.","_"); print}')
+%define		file_ver	%(echo %{version} | tr . _)
 Release:	%{rel}
 License:	other
 Group:		Base/Kernel
