@@ -9,13 +9,13 @@
 Summary:	Linux kernel module for BCM network cards
 Name:		%{pname}%{_alt_kernel}
 Version:	5.100.82.38
-%define		file_ver	%(echo %{version} | tr . _)
+%define ver	5_100_82_38
 Release:	%{rel}
 License:	other
 Group:		Base/Kernel
-Source0:	http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_x86_32-v%{file_ver}.tar.gz
+Source0:	http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_x86_32-v%{ver}.tar.gz
 # Source0-md5:	c0074a1622c75916442e26763ddf47d0
-Source1:	http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_x86_64-v%{file_ver}.tar.gz
+Source1:	http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_x86_64-v%{ver}.tar.gz
 # Source1-md5:	cac172f7422fa43264049c7065fe21d6
 Source2:	http://www.broadcom.com/docs/linux_sta/README.txt
 # Source2-md5:	24976921c7b8854ed2cd56fbc5b1c13c
