@@ -4,7 +4,7 @@
 
 %define		_enable_debug_packages	0
 
-%define		rel	1
+%define		rel	2
 %define		pname	wl
 Summary:	Linux kernel module for BCM network cards
 Name:		%{pname}%{_alt_kernel}
@@ -20,6 +20,8 @@ Source1:	http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_x86_64-v%{file_ve
 Source2:	http://www.broadcom.com/docs/linux_sta/README.txt
 # Source2-md5:	24976921c7b8854ed2cd56fbc5b1c13c
 Patch0:		broadcom-sta_4_kernel-2.6.37.patch
+Patch1:		kernel-net-wl-linux-3.2.patch
+Patch2:		kernel-net-wl-linux-3.4.patch
 URL:		http://www.broadcom.com/support/802.11/linux_sta.php
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRequires:	rpmbuild(macros) >= 1.379
@@ -57,6 +59,8 @@ This package contains Linux module.
 %endif
 %setup -c -T -q -n %{pname}-%{version} -b%src
 %patch0 -p0
+%patch1 -p0
+%patch2 -p0
 
 cat > Makefile << EOF
 obj-m	+= wl.o
