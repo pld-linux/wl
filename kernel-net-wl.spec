@@ -5,7 +5,7 @@
 %define		rel	2
 %define		pname	wl
 %define		file_ver	%(echo %{version} | tr . _)
-Summary:	Linux kernel module for BCM network cards
+Summary:	Broadcom 802.11 a/b/g/n hybrid Linux networking device driver
 Name:		%{pname}%{_alt_kernel}
 Version:	5.100.82.112
 Release:	%{rel}
