@@ -2,24 +2,21 @@
 %bcond_without	dist_kernel	# allow non-distribution kernel
 %bcond_with	verbose		# verbose build (V=1)
 
-%define		_enable_debug_packages	0
-
 %define		rel	2
 %define		pname	wl
+%define		file_ver	%(echo %{version} | tr . _)
 Summary:	Linux kernel module for BCM network cards
 Name:		%{pname}%{_alt_kernel}
-Version:	5.100.82.38
-%define		file_ver	%(echo %{version} | tr . _)
+Version:	5.100.82.112
 Release:	%{rel}
 License:	other
 Group:		Base/Kernel
 Source0:	http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_x86_32-v%{file_ver}.tar.gz
-# Source0-md5:	c0074a1622c75916442e26763ddf47d0
+# Source0-md5:	62d04d148b99f993ef575a71332593a9
 Source1:	http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_x86_64-v%{file_ver}.tar.gz
-# Source1-md5:	cac172f7422fa43264049c7065fe21d6
+# Source1-md5:	310d7ce233a9a352fbe62c451b2ea309
 Source2:	http://www.broadcom.com/docs/linux_sta/README.txt
-# Source2-md5:	24976921c7b8854ed2cd56fbc5b1c13c
-Patch0:		broadcom-sta_4_kernel-2.6.37.patch
+# Source2-md5:	6fd54aac59a53559d01520f35500693b
 Patch1:		kernel-net-wl-linux-3.2.patch
 Patch2:		kernel-net-wl-linux-3.4.patch
 URL:		http://www.broadcom.com/support/802.11/linux_sta.php
@@ -28,10 +25,13 @@ BuildRequires:	rpmbuild(macros) >= 1.379
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		_enable_debug_packages	0
+
 %description
 These packages contain Broadcom's IEEE 802.11a/b/g/n hybrid Linux
-device driver for use with Broadcom's BCM4311-, BCM4312-, BCM4321-,
-and BCM4322-based hardware.
+device driver for use with Broadcom's BCM4311-, BCM4312-, BCM4313-,
+BCM4321-, BCM4322-, BCM43224-, and BCM43225-, BCM43227- and
+BCM43228-based hardware.
 
 %package -n kernel%{_alt_kernel}-net-wl
 Summary:	Linux driver for wl
@@ -53,12 +53,11 @@ This package contains Linux module.
 
 %prep
 %ifarch %{x8664}
-%define		src 1
+%define src 1
 %else
-%define		src 0
+%define src 0
 %endif
 %setup -c -T -q -n %{pname}-%{version} -b%src
-%patch0 -p0
 %patch1 -p0
 %patch2 -p0
 
