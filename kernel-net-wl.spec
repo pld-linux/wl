@@ -22,6 +22,7 @@ Source2:	http://www.broadcom.com/docs/linux_sta/README.txt
 Patch0:		broadcom-sta_4_kernel-2.6.37.patch
 Patch1:		kernel-net-wl-linux-3.2.patch
 Patch2:		kernel-net-wl-linux-3.4.patch
+Patch3:		gcc-4.8.patch
 URL:		http://www.broadcom.com/support/802.11/linux_sta.php
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRequires:	rpmbuild(macros) >= 1.379
@@ -61,6 +62,7 @@ This package contains Linux module.
 %patch0 -p0
 %patch1 -p0
 %patch2 -p0
+%patch3 -p1
 
 cat > Makefile << EOF
 obj-m	+= wl.o

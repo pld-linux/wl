@@ -1,0 +1,11 @@
+--- wl-5.60.246.6/src/wl/sys/wl_iw.c~	2010-10-22 05:23:55.000000000 +0300
++++ wl-5.60.246.6/src/wl/sys/wl_iw.c	2013-06-07 09:48:06.790884436 +0300
+@@ -479,7 +479,7 @@
+ 		return -EINVAL;
+ 
+ 	dwrq->length = sizeof(struct iw_range);
+-	memset(range, 0, sizeof(range));
++	memset(&range, 0, sizeof(range));
+ 
+ 	range->min_nwid = range->max_nwid = 0;
+ 
