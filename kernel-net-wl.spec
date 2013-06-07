@@ -19,6 +19,9 @@ Source1:	http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_x86-64_v%{version
 Source2:	http://www.broadcom.com/docs/linux_sta/README.txt
 # Source2-md5:	04b0c96665b520709811a0c80a9e8ef5
 URL:		http://www.broadcom.com/support/802.11/linux_sta.php
+Patch0:		gcc-4.8.patch
+Patch1:		kernel-net-wl-linux-3.2.patch
+Patch2:		kernel-net-wl-linux-3.4.patch
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRequires:	rpmbuild(macros) >= 1.379
 ExclusiveArch:	%{ix86} %{x8664}
@@ -54,6 +57,9 @@ This package contains Linux module.
 %define		src 0
 %endif
 %setup -c -T -q -n %{pname}-%{version} -b%src
+%patch0 -p1
+%patch1 -p1
+%patch2 -p1
 
 cat > Makefile << EOF
 obj-m	+= wl.o

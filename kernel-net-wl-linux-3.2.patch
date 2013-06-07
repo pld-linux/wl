@@ -1,0 +1,14 @@
+--- wl-5.60.246.6/src/wl/sys/wl_linux.c~	2013-06-07 09:49:13.000000000 +0300
++++ wl-5.60.246.6/src/wl/sys/wl_linux.c	2013-06-07 09:51:00.968454972 +0300
+@@ -216,7 +216,11 @@
+ 	.ndo_start_xmit = wl_start,
+ 	.ndo_get_stats = wl_get_stats,
+ 	.ndo_set_mac_address = wl_set_mac_address,
++#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 2, 0)
+ 	.ndo_set_multicast_list = wl_set_multicast_list,
++#else
++	.ndo_set_rx_mode = wl_set_multicast_list,
++#endif
+ 	.ndo_do_ioctl = wl_ioctl
+ };
+ #endif 

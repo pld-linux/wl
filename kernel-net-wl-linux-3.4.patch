@@ -1,0 +1,10 @@
+--- wl-5.60.246.6/src/wl/sys/wl_linux.c	2010-10-22 05:23:55.000000000 +0300
++++ wl-5.100.82.112/src/wl/sys/wl_linux.c	2013-06-07 09:36:49.884814827 +0300
+@@ -45,4 +45,7 @@
++
++#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 4, 0)
+ #include <asm/system.h>
++#endif
+ #include <asm/io.h>
+ #include <asm/irq.h>
+ #include <asm/pgtable.h>
