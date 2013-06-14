@@ -6,9 +6,9 @@
 %define		pname	wl
 %define		file_ver	%(echo %{version} | tr . _)
 Summary:	Broadcom 802.11 a/b/g/n hybrid Linux networking device driver
-Name:		%{pname}%{_alt_kernel}
+Name:		kernel%{_alt_kernel}-net-wl
 Version:	5.100.82.112
-Release:	%{rel}
+Release:	%{rel}@%{_kernel_ver_str}
 License:	other
 Group:		Base/Kernel
 Source0:	http://www.broadcom.com/docs/linux_sta/hybrid-portsrc_x86_32-v%{file_ver}.tar.gz
@@ -22,6 +22,11 @@ Patch2:		kernel-net-wl-linux-3.4.patch
 URL:		http://www.broadcom.com/support/802.11/linux_sta.php
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRequires:	rpmbuild(macros) >= 1.379
+Requires(post,postun):	/sbin/depmod
+%if %{with dist_kernel}
+%requires_releq_kernel
+Requires(postun):	%releq_kernel
+%endif
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -32,24 +37,6 @@ These packages contain Broadcom's IEEE 802.11a/b/g/n hybrid Linux
 device driver for use with Broadcom's BCM4311-, BCM4312-, BCM4313-,
 BCM4321-, BCM4322-, BCM43224-, and BCM43225-, BCM43227- and
 BCM43228-based hardware.
-
-%package -n kernel%{_alt_kernel}-net-wl
-Summary:	Linux driver for wl
-Summary(pl.UTF-8):	Sterownik dla Linuksa do wl
-Release:	%{rel}@%{_kernel_ver_str}
-Group:		Base/Kernel
-Requires(post,postun):	/sbin/depmod
-%if %{with dist_kernel}
-%requires_releq_kernel
-Requires(postun):	%releq_kernel
-%endif
-
-%description -n kernel%{_alt_kernel}-net-wl
-This is driver for wl for Linux. These packages contain Broadcom's
-IEEE 802.11a/b/g/n hybrid Linux device driver for use with Broadcom's
-BCM4311-, BCM4312-, BCM4321-, and BCM4322-based hardware.
-
-This package contains Linux module.
 
 %prep
 %ifarch %{x8664}
@@ -85,19 +72,19 @@ install %{SOURCE2} .
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-n kernel%{_alt_kernel}-net-wl
+%post
 %depmod %{_kernel_ver}
 
-%posttrans -n kernel%{_alt_kernel}-net-wl
+%posttrans
 %banner -e kernel%{_alt_kernel}-net-wl <<EOF
 WARNING! This kernel module is not GPL licensed.
 Before using it be sure to accept license: %{_docdir}/kernel%{_alt_kernel}-net-wl-%{version}/LICENSE.txt*
 EOF
 
-%postun	-n kernel%{_alt_kernel}-net-wl
+%postun
 %depmod %{_kernel_ver}
 
-%files -n kernel%{_alt_kernel}-net-wl
+%files
 %defattr(644,root,root,755)
 %doc lib/LICENSE.txt README.txt
 /lib/modules/%{_kernel_ver}/kernel/drivers/net/wireless/*.ko*
