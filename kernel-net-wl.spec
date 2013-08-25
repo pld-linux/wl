@@ -2,7 +2,7 @@
 %bcond_without	dist_kernel	# allow non-distribution kernel
 %bcond_with	verbose		# verbose build (V=1)
 
-%define		rel	14
+%define		rel	15
 %define		pname	wl
 %define		file_ver	%(echo %{version} | tr . _)
 Summary:	Broadcom 802.11 a/b/g/n hybrid Linux networking device driver
@@ -19,6 +19,7 @@ Source2:	http://www.broadcom.com/docs/linux_sta/README.txt
 # Source2-md5:	6fd54aac59a53559d01520f35500693b
 Patch1:		kernel-net-wl-linux-3.2.patch
 Patch2:		kernel-net-wl-linux-3.4.patch
+Patch3:		kernel-net-wl-linux-3.10.patch
 URL:		http://www.broadcom.com/support/802.11/linux_sta.php
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRequires:	rpmbuild(macros) >= 1.379
@@ -47,6 +48,7 @@ BCM43228-based hardware.
 %setup -c -T -q -n %{pname}-%{version} -b%src
 %patch1 -p0
 %patch2 -p0
+%patch3 -p1
 
 cat > Makefile << EOF
 obj-m	+= wl.o
