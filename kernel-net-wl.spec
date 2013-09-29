@@ -17,6 +17,7 @@ Source1:	http://www.broadcom.com/docs/linux_sta/hybrid-v35_64-nodebug-pcoem-%{fi
 # Source1-md5:	039f33d2a3ff2890e42717092d1eb0c4
 Source2:	http://www.broadcom.com/docs/linux_sta/README.txt
 # Source2-md5:	8a6e8708a5e00ab6d841cde51d70eb1b
+Patch0:		broadcom-sta-6.30.223.141-kernel-3.10.patch
 URL:		http://www.broadcom.com/support/802.11/linux_sta.php
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.20.2}
 BuildRequires:	rpmbuild(macros) >= 1.379
@@ -46,6 +47,7 @@ with Broadcom based hardware.
 %define src 0
 %endif
 %setup -c -T -q -n %{pname}-%{version} -b%{src}
+%patch0 -p2
 
 cat > Makefile << EOF
 obj-m	+= wl.o
