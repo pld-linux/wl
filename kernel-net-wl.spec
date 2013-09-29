@@ -49,6 +49,8 @@ with Broadcom based hardware.
 %setup -c -T -q -n %{pname}-%{version} -b%{src}
 %patch0 -p2
 
+cp -p %{SOURCE2} .
+
 cat > Makefile << EOF
 obj-m	+= wl.o
 
@@ -70,7 +72,6 @@ EOF
 %install
 rm -rf $RPM_BUILD_ROOT
 %install_kernel_modules -m wl -d kernel/drivers/net/wireless
-install %{SOURCE2} .
 
 %clean
 rm -rf $RPM_BUILD_ROOT
