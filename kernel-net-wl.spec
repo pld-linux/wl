@@ -71,19 +71,19 @@ find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
 
 cp -p %{SOURCE2} .
 
-cat > Makefile << EOF
+cat > Makefile << 'EOF'
 obj-m	+= wl.o
 
 wl-objs		+= src/wl/sys/wl_linux.o
 wl-objs		+= src/wl/sys/wl_iw.o
 wl-objs		+= src/shared/linux_osl.o
 
-EXTRA_CFLAGS	+= -I%{_builddir}/%{modname}-%{version}/src/include
-EXTRA_CFLAGS	+= -I%{_builddir}/%{modname}-%{version}/src/common/include
-EXTRA_CFLAGS	+= -I%{_builddir}/%{modname}-%{version}/src/wl/sys
-EXTRA_CFLAGS	+= -I%{_builddir}/%{modname}-%{version}/src/shared/bcmwifi/include
+EXTRA_CFLAGS	+= -I$(KBUILD_EXTMOD)/src/include
+EXTRA_CFLAGS	+= -I$(KBUILD_EXTMOD)/src/common/include
+EXTRA_CFLAGS	+= -I$(KBUILD_EXTMOD)/src/wl/sys
+EXTRA_CFLAGS	+= -I$(KBUILD_EXTMOD)/src/shared/bcmwifi/include
 
-EXTRA_LDFLAGS	:= $PWD/lib/wlc_hybrid.o_shipped
+EXTRA_LDFLAGS	:= $(KBUILD_EXTMOD)/lib/wlc_hybrid.o_shipped
 EOF
 
 %build
