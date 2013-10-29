@@ -4,13 +4,16 @@
 %bcond_with	verbose		# verbose build (V=1)
 %bcond_with	dkms	# build dkms package
 
+# nothing to be placed to debuginfo package
+%define		_enable_debug_packages	0
+
 %define		rel	3
-%define		modname	wl
+%define		pname	wl
 %define		file_ver	%(echo %{version} | tr . _)
 Summary:	Broadcom 802.11 a/b/g/n hybrid Linux networking device driver
-Name:		kernel%{_alt_kernel}-net-wl
+Name:		%{pname}%{_alt_kernel}
 Version:	6.30.223.141
-Release:	%{rel}@%{_kernel_ver_str}
+Release:	%{rel}
 License:	other
 Group:		Base/Kernel
 Source0:	http://www.broadcom.com/docs/linux_sta/hybrid-v35-nodebug-pcoem-%{file_ver}.tar.gz
@@ -32,9 +35,6 @@ Requires(postun):	%releq_kernel
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-# nothing to be placed to debuginfo package
-%define		_enable_debug_packages	0
-
 %description
 These packages contain Broadcom's IEEE 802.11a/b/g/n hybrid Linux
 device driver for use with Broadcom's BCM4311-, BCM4312-, BCM4313-,
@@ -44,7 +44,26 @@ BCM43228-based hardware.
 This is an Official Release of Broadcom's hybrid Linux driver for use
 with Broadcom based hardware.
 
-%package -n dkms-%{modname}
+%package -n kernel%{_alt_kernel}-net-wl
+Summary:	Broadcom 802.11 a/b/g/n hybrid Linux networking device driver
+Release:	%{rel}@%{_kernel_ver_str}
+Group:		Base/Kernel
+Requires(post,postun):	/sbin/depmod
+%if %{with dist_kernel}
+%requires_releq_kernel
+Requires(postun):	%releq_kernel
+%endif
+
+%description -n kernel%{_alt_kernel}-net-wl
+These packages contain Broadcom's IEEE 802.11a/b/g/n hybrid Linux
+device driver for use with Broadcom's BCM4311-, BCM4312-, BCM4313-,
+BCM4321-, BCM4322-, BCM43224-, and BCM43225-, BCM43227- and
+BCM43228-based hardware.
+
+This is an Official Release of Broadcom's hybrid Linux driver for use
+with Broadcom based hardware.
+
+%package -n dkms-%{pname}
 Summary:	DKMS-ready driver for Broadcom WL driver
 Group:		Base/Kernel
 Release:	%{rel}
@@ -54,7 +73,7 @@ Requires(post):	dkms
 BuildArch:	noarch
 %endif
 
-%description -n dkms-%{modname}
+%description -n dkms-%{pname}
 This package contains a DKMS-ready driver for Broadcom WL driver.
 
 %prep
@@ -63,7 +82,7 @@ This package contains a DKMS-ready driver for Broadcom WL driver.
 %else
 %define src 0
 %endif
-%setup -c -T -q -n %{modname}-%{version} -b%{src}
+%setup -c -T -q -n %{pname}-%{version} -b%{src}
 %patch0 -p2
 
 # cleanup backups after patching
@@ -98,44 +117,44 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %if %{with dkms}
-install -d $RPM_BUILD_ROOT%{_usrsrc}/%{modname}-%{version}-%{rel}
-cp -a Makefile lib src $RPM_BUILD_ROOT%{_usrsrc}/%{modname}-%{version}-%{rel}
-sed -e 's|@MODNAME@|%{modname}|g' -e 's|@MODVERSION@|%{version}-%{rel}|g' \
-	%{SOURCE3} > $RPM_BUILD_ROOT%{_usrsrc}/%{modname}-%{version}-%{rel}/dkms.conf
+install -d $RPM_BUILD_ROOT%{_usrsrc}/%{pname}-%{version}-%{rel}
+cp -a Makefile lib src $RPM_BUILD_ROOT%{_usrsrc}/%{pname}-%{version}-%{rel}
+sed -e 's|@pname@|%{pname}|g' -e 's|@MODVERSION@|%{version}-%{rel}|g' \
+	%{SOURCE3} > $RPM_BUILD_ROOT%{_usrsrc}/%{pname}-%{version}-%{rel}/dkms.conf
 %endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
+%post -n kernel%{_alt_kernel}-net-wl
 %depmod %{_kernel_ver}
 
-%posttrans
+%posttrans -n kernel%{_alt_kernel}-net-wl
 %banner -e kernel%{_alt_kernel}-net-wl <<EOF
 WARNING! This kernel module is not GPL licensed.
 Before using it be sure to accept license: %{_docdir}/kernel%{_alt_kernel}-net-wl-%{version}/LICENSE.txt*
 EOF
 
-%postun
+%postun -n kernel%{_alt_kernel}-net-wl
 %depmod %{_kernel_ver}
 
-%post -n dkms-%{modname}
-%{_sbindir}/dkms add -m %{modname} -v %{version}-%{rel} --rpm_safe_upgrade && \
-%{_sbindir}/dkms build -m %{modname} -v %{version}-%{rel} --rpm_safe_upgrade && \
-%{_sbindir}/dkms install -m %{modname} -v %{version}-%{rel} --rpm_safe_upgrade || :
+%post -n dkms-%{pname}
+%{_sbindir}/dkms add -m %{pname} -v %{version}-%{rel} --rpm_safe_upgrade && \
+%{_sbindir}/dkms build -m %{pname} -v %{version}-%{rel} --rpm_safe_upgrade && \
+%{_sbindir}/dkms install -m %{pname} -v %{version}-%{rel} --rpm_safe_upgrade || :
 
-%preun -n dkms-%{modname}
-%{_sbindir}/dkms remove -m %{modname} -v %{version}-%{rel} --rpm_safe_upgrade --all || :
+%preun -n dkms-%{pname}
+%{_sbindir}/dkms remove -m %{pname} -v %{version}-%{rel} --rpm_safe_upgrade --all || :
 
 %if %{with kernel}
-%files
+%files -n kernel%{_alt_kernel}-net-wl
 %defattr(644,root,root,755)
 %doc lib/LICENSE.txt README.txt
 /lib/modules/%{_kernel_ver}/kernel/drivers/net/wireless/*.ko*
 %endif
 
 %if %{with dkms}
-%files -n dkms-%{modname}
+%files -n dkms-%{pname}
 %defattr(644,root,root,755)
-%{_usrsrc}/%{modname}-%{version}-%{rel}
+%{_usrsrc}/%{pname}-%{version}-%{rel}
 %endif
