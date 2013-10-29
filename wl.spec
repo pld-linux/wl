@@ -8,15 +8,6 @@
 %undefine	with_dist_kernel
 %endif
 
-# The goal here is to have main, userspace, package built once with
-# simple release number, and only rebuild kernel packages with kernel
-# version as part of release number, without the need to bump release
-# with every kernel change.
-%if 0%{?_pld_builder:1} && %{with kernel} && %{with userspace}
-%{error:kernel and userspace cannot be built at the same time on PLD builders}
-exit 1
-%endif
-
 %if "%{_alt_kernel}" != "%{nil}"
 %if 0%{?build_kernels:1}
 %{error:alt_kernel and build_kernels are mutually exclusive}
