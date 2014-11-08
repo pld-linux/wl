@@ -30,14 +30,14 @@ exit 1
 %define		file_ver	%(echo %{version} | tr . _)
 Summary:	Broadcom 802.11 a/b/g/n hybrid Linux networking device driver
 Name:		%{pname}%{_alt_kernel}
-Version:	6.30.223.141
+Version:	6.30.223.248
 Release:	%{rel}%{?_pld_builder:%{?with_kernel:@%{_kernel_ver_str}}}
 License:	other
 Group:		Base/Kernel
 Source0:	http://www.broadcom.com/docs/linux_sta/hybrid-v35-nodebug-pcoem-%{file_ver}.tar.gz
-# Source0-md5:	f4809d9149e8e60ef95021ae93a4bf21
+# Source0-md5:	e048154b3f4c7ad6bee36cab5b37486d
 Source1:	http://www.broadcom.com/docs/linux_sta/hybrid-v35_64-nodebug-pcoem-%{file_ver}.tar.gz
-# Source1-md5:	039f33d2a3ff2890e42717092d1eb0c4
+# Source1-md5:	0237917f75d121589ec16a44eac5f5b0
 Source2:	http://www.broadcom.com/docs/linux_sta/README.txt
 # Source2-md5:	8a6e8708a5e00ab6d841cde51d70eb1b
 Source3:	dkms.conf
@@ -122,7 +122,7 @@ EOF\
 %define src 0
 %endif
 %setup -c -T -q -n %{pname}-%{version} -b%{src}
-%patch0 -p2
+#%patch0 -p2
 
 # cleanup backups after patching
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
