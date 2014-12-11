@@ -4,12 +4,12 @@
  		WL_ALL_PASSIVE_ENAB(wl) ?  ", Passive Mode" : "", EPI_VERSION_STR);
  
  #ifdef BCMDBG
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 15, 0)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)
 +#pragma GCC diagnostic push
 +#pragma GCC diagnostic ignored "-Wdate-time"
 +#endif
  	printf(" (Compiled in " SRCBASE " at " __TIME__ " on " __DATE__ ")");
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 15, 0)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)
 +#pragma GCC diagnostic pop
 +#endif
  #endif 
@@ -19,13 +19,13 @@
  void
  wl_dump_ver(wl_info_t *wl, struct bcmstrbuf *b)
  {
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 15, 0)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)
 +#pragma GCC diagnostic push
 +#pragma GCC diagnostic ignored "-Wdate-time"
 +#endif
  	bcm_bprintf(b, "wl%d: %s %s version %s\n", wl->pub->unit,
  		__DATE__, __TIME__, EPI_VERSION_STR);
-+#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 15, 0)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)
 +#pragma GCC diagnostic pop
 +#endif
  }
