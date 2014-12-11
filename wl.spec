@@ -25,7 +25,7 @@ exit 1
 %define		kpkg	%(echo %{_build_kernels} | tr , '\\n' | while read n ; do echo %%undefine alt_kernel ; [ -z "$n" ] || echo %%define alt_kernel $n ; echo %%kernel_pkg ; done)
 %define		bkpkg	%(echo %{_build_kernels} | tr , '\\n' | while read n ; do echo %%undefine alt_kernel ; [ -z "$n" ] || echo %%define alt_kernel $n ; echo %%build_kernel_pkg ; done)
 
-%define		rel	1
+%define		rel	2
 %define		pname	wl
 %define		file_ver	%(echo %{version} | tr . _)
 Summary:	Broadcom 802.11 a/b/g/n hybrid Linux networking device driver
@@ -42,6 +42,7 @@ Source2:	http://www.broadcom.com/docs/linux_sta/README.txt
 # Source2-md5:	8a6e8708a5e00ab6d841cde51d70eb1b
 Source3:	dkms.conf
 Patch0:		linux-3.17.patch
+Patch1:		gcc-4.9.patch
 URL:		http://www.broadcom.com/support/802.11/linux_sta.php
 BuildRequires:	rpmbuild(macros) >= 1.678
 %{?with_dist_kernel:%{expand:%kbrs}}
@@ -123,6 +124,7 @@ EOF\
 %endif
 %setup -c -T -q -n %{pname}-%{version} -b%{src}
 %patch0 -p1
+%patch1 -p1
 
 # cleanup backups after patching
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
