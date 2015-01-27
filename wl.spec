@@ -1,12 +1,7 @@
 # Conditional build:
-%bcond_without	dist_kernel	# allow non-distribution kernel
 %bcond_without	kernel		# don't build kernel modules
 %bcond_with	verbose		# verbose build (V=1)
 %bcond_with	dkms		# build dkms package
-
-%if %{without kernel}
-%undefine	with_dist_kernel
-%endif
 
 %if "%{_alt_kernel}" != "%{nil}"
 %if 0%{?build_kernels:1}
@@ -45,7 +40,7 @@ Patch0:		linux-3.17.patch
 Patch1:		gcc-4.9.patch
 URL:		http://www.broadcom.com/support/802.11/linux_sta.php
 BuildRequires:	rpmbuild(macros) >= 1.678
-%{?with_dist_kernel:%{expand:%kbrs}}
+%{?with_kernel:%{expand:%kbrs}}
 ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -77,10 +72,8 @@ Summary:	Broadcom 802.11 a/b/g/n hybrid Linux networking device driver\
 Release:	%{rel}@%{_kernel_ver_str}\
 Group:		Base/Kernel\
 Requires(post,postun):	/sbin/depmod\
-%if %{with dist_kernel}\
 %requires_releq_kernel\
 Requires(postun):	%releq_kernel\
-%endif\
 \
 %description -n kernel%{_alt_kernel}-net-wl\
 These packages contain Broadcom's IEEE 802.11a/b/g/n hybrid Linux\
