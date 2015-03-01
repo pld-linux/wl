@@ -1,7 +1,12 @@
 # Conditional build:
 %bcond_without	kernel		# don't build kernel modules
 %bcond_with	verbose		# verbose build (V=1)
+%bcond_without	userspace	# don't build userspace programs
 %bcond_with	dkms		# build dkms package
+
+%if %{without userspace}
+%undefine	with_dkms
+%endif
 
 # nothing to be placed to debuginfo package
 %define		_enable_debug_packages	0
