@@ -2,7 +2,7 @@
 %bcond_without	kernel		# don't build kernel modules
 %bcond_with	verbose		# verbose build (V=1)
 %bcond_without	userspace	# don't build userspace programs
-%bcond_with	dkms		# build dkms package
+%bcond_without	dkms		# build dkms package
 
 %if %{without userspace}
 %undefine	with_dkms
