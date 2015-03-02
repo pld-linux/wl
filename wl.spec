@@ -32,7 +32,7 @@ Patch1:		gcc-4.9.patch
 URL:		http://www.broadcom.com/support/802.11/linux_sta.php
 BuildRequires:	rpmbuild(macros) >= 1.701
 %{?with_kernel:%{expand:%buildrequires_kernel kernel%%{_alt_kernel}-module-build >= 3:2.6.20.2}}
-ExclusiveArch:	%{ix86} %{x8664} x32
+ExclusiveArch:	%{ix86} %{x8664}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
