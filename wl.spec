@@ -4,6 +4,11 @@
 %bcond_without	userspace	# don't build userspace programs
 %bcond_without	dkms		# build dkms package
 
+%if 0%{?_pld_builder:1} && %{with kernel} && %{with userspace}
+%{error:kernel and userspace cannot be built at the same time on PLD builders}
+exit 1
+%endif
+
 %if %{without userspace}
 %undefine	with_dkms
 %endif
@@ -11,11 +16,11 @@
 # nothing to be placed to debuginfo package
 %define		_enable_debug_packages	0
 
-%define		rel	7
+%define		rel	8
 %define		pname	wl
 %define		file_ver	%(echo %{version} | tr . _)
 Summary:	Broadcom 802.11 a/b/g/n hybrid Linux networking device driver
-Name:		%{pname}%{_alt_kernel}
+Name:		%{pname}%{?_pld_builder:%{?with_kernel:-kernel}}%{_alt_kernel}
 Version:	6.30.223.248
 Release:	%{rel}%{?_pld_builder:%{?with_kernel:@%{_kernel_ver_str}}}
 License:	other
