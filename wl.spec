@@ -16,7 +16,7 @@ exit 1
 # nothing to be placed to debuginfo package
 %define		_enable_debug_packages	0
 
-%define		rel	8
+%define		rel	9
 %define		pname	wl
 %define		file_ver	%(echo %{version} | tr . _)
 Summary:	Broadcom 802.11 a/b/g/n hybrid Linux networking device driver
@@ -34,6 +34,7 @@ Source2:	http://www.broadcom.com/docs/linux_sta/README.txt
 Source3:	dkms.conf
 Patch0:		linux-3.17.patch
 Patch1:		gcc-4.9.patch
+Patch2:		no-dead-code.patch
 URL:		http://www.broadcom.com/support/802.11/linux_sta.php
 BuildRequires:	rpmbuild(macros) >= 1.701
 %{?with_kernel:%{expand:%buildrequires_kernel kernel%%{_alt_kernel}-module-build >= 3:2.6.20.2}}
@@ -114,6 +115,7 @@ EOF\
 %setup -c -T -q -n %{pname}-%{version} -b%{src}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 # cleanup backups after patching
 find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
