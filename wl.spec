@@ -16,23 +16,25 @@ exit 1
 # nothing to be placed to debuginfo package
 %define		_enable_debug_packages	0
 
-%define		rel	9
+%define		_duplicate_files_terminate_build	0
+
+%define		rel	1
 %define		pname	wl
 %define		file_ver	%(echo %{version} | tr . _)
 Summary:	Broadcom 802.11 a/b/g/n hybrid Linux networking device driver
 Name:		%{pname}%{?_pld_builder:%{?with_kernel:-kernel}}%{_alt_kernel}
-Version:	6.30.223.248
+Version:	6.30.223.271
 Release:	%{rel}%{?_pld_builder:%{?with_kernel:@%{_kernel_ver_str}}}
 License:	other
 Group:		Base/Kernel
 Source0:	http://www.broadcom.com/docs/linux_sta/hybrid-v35-nodebug-pcoem-%{file_ver}.tar.gz
-# Source0-md5:	e048154b3f4c7ad6bee36cab5b37486d
+# Source0-md5:	4e75f4cb7d87f690f9659ffc478495f0
 Source1:	http://www.broadcom.com/docs/linux_sta/hybrid-v35_64-nodebug-pcoem-%{file_ver}.tar.gz
-# Source1-md5:	0237917f75d121589ec16a44eac5f5b0
+# Source1-md5:	115903050c41d466161784d4c843f4f9
 Source2:	http://www.broadcom.com/docs/linux_sta/README.txt
 # Source2-md5:	8a6e8708a5e00ab6d841cde51d70eb1b
 Source3:	dkms.conf
-Patch0:		linux-3.17.patch
+Source4:	modprobe.conf
 Patch1:		gcc-4.9.patch
 Patch2:		no-dead-code.patch
 URL:		http://www.broadcom.com/support/802.11/linux_sta.php
@@ -83,8 +85,9 @@ with Broadcom based hardware.\
 \
 %files -n kernel%{_alt_kernel}-net-wl\
 %defattr(644,root,root,755)\
-%doc lib/LICENSE.txt README.txt\
+%doc wl/lib/LICENSE.txt README.txt\
 /lib/modules/%{_kernel_ver}/kernel/drivers/net/wireless/*.ko*\
+%config(noreplace) %verify(not md5 mtime size) /etc/modprobe.d/%{pname}.conf\
 \
 %post -n kernel%{_alt_kernel}-net-wl\
 %depmod %{_kernel_ver}\
@@ -100,8 +103,9 @@ EOF\
 %{nil}
 
 %define build_kernel_pkg()\
-%build_kernel_modules -m wl\
-%install_kernel_modules -D installed -m wl -d kernel/drivers/net/wireless\
+%{__make} -C wl KERNELRELEASE=%{_kernel_ver} KBUILD_DIR=%{_kernelsrcdir} clean\
+%{__make} -C wl KERNELRELEASE=%{_kernel_ver} KBUILD_DIR=%{_kernelsrcdir}\
+%install_kernel_modules -D installed -m wl/wl -d kernel/drivers/net/wireless\
 %{nil}
 
 %{?with_kernel:%{expand:%create_kernel_packages}}
@@ -113,43 +117,32 @@ EOF\
 %define src 0
 %endif
 %setup -c -T -q -n %{pname}-%{version} -b%{src}
-%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 
-# cleanup backups after patching
-find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
-
+mkdir wl
+mv lib src Makefile wl/
 cp -p %{SOURCE2} .
 
-cat > Makefile << 'EOF'
-obj-m	+= wl.o
-
-wl-objs		+= src/wl/sys/wl_linux.o
-wl-objs		+= src/wl/sys/wl_iw.o
-wl-objs		+= src/shared/linux_osl.o
-
-EXTRA_CFLAGS	+= -I$(KBUILD_EXTMOD)/src/include
-EXTRA_CFLAGS	+= -I$(KBUILD_EXTMOD)/src/common/include
-EXTRA_CFLAGS	+= -I$(KBUILD_EXTMOD)/src/wl/sys
-EXTRA_CFLAGS	+= -I$(KBUILD_EXTMOD)/src/shared/bcmwifi/include
-
-EXTRA_LDFLAGS	:= $(KBUILD_EXTMOD)/lib/wlc_hybrid.o_shipped
-EOF
+# cleanup backups after patching
+find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
 
 %build
 %{?with_kernel:%{expand:%build_kernel_packages}}
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT/etc/modprobe.d
+
 %if %{with kernel}
 install -d $RPM_BUILD_ROOT
 cp -a installed/* $RPM_BUILD_ROOT
+cp -p %{SOURCE4} $RPM_BUILD_ROOT/etc/modprobe.d/%{pname}.conf
 %endif
 
 %if %{with dkms}
 install -d $RPM_BUILD_ROOT%{_usrsrc}/%{pname}-%{version}-%{rel}
-cp -a Makefile lib src $RPM_BUILD_ROOT%{_usrsrc}/%{pname}-%{version}-%{rel}
+cp -a wl/Makefile wl/lib wl/src $RPM_BUILD_ROOT%{_usrsrc}/%{pname}-%{version}-%{rel}
 sed -e 's|@pname@|%{pname}|g' -e 's|@MODVERSION@|%{version}-%{rel}|g' \
 	%{SOURCE3} > $RPM_BUILD_ROOT%{_usrsrc}/%{pname}-%{version}-%{rel}/dkms.conf
 %endif
