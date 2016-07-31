@@ -1,0 +1,16 @@
+--- wl-6.30.223.271/src/wl/sys/wl_cfg80211_hybrid.c~	2015-09-19 00:47:30.000000000 +0200
++++ wl-6.30.223.271/src/wl/sys/wl_cfg80211_hybrid.c	2016-07-31 19:54:31.535189248 +0200
+@@ -43,6 +43,13 @@
+ #define EVENT_FLAGS(e) dtoh16((e)->flags)
+ #define EVENT_STATUS(e) dtoh32((e)->status)
+ 
++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 7, 0))
++#define ieee80211_band nl80211_band
++#define IEEE80211_BAND_2GHZ NL80211_BAND_2GHZ
++#define IEEE80211_BAND_5GHZ NL80211_BAND_5GHZ
++#define IEEE80211_NUM_BANDS NUM_NL80211_BANDS
++#endif
++
+ #ifdef BCMDBG
+ u32 wl_dbg_level = WL_DBG_ERR | WL_DBG_INFO;
+ #else

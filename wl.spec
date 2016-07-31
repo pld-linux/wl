@@ -18,7 +18,7 @@ exit 1
 
 %define		_duplicate_files_terminate_build	0
 
-%define		rel	1
+%define		rel	2
 %define		pname	wl
 %define		file_ver	%(echo %{version} | tr . _)
 Summary:	Broadcom 802.11 a/b/g/n hybrid Linux networking device driver
@@ -37,6 +37,7 @@ Source3:	dkms.conf
 Source4:	modprobe.conf
 Patch1:		gcc-4.9.patch
 Patch2:		no-dead-code.patch
+Patch3:		linux-4.7.patch
 URL:		http://www.broadcom.com/support/802.11/linux_sta.php
 BuildRequires:	rpmbuild(macros) >= 1.701
 %{?with_kernel:%{expand:%buildrequires_kernel kernel%%{_alt_kernel}-module-build >= 3:2.6.20.2}}
@@ -119,6 +120,7 @@ EOF\
 %setup -c -T -q -n %{pname}-%{version} -b%{src}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 mkdir wl
 mv lib src Makefile wl/
