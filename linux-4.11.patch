@@ -1,0 +1,24 @@
+--- wl-6.30.223.271/src/wl/sys/wl_linux.c~	2017-05-10 00:45:38.000000000 +0200
++++ wl-6.30.223.271/src/wl/sys/wl_linux.c	2017-05-10 00:46:16.265195806 +0200
+@@ -2929,7 +2929,9 @@
+ 	if (skb == NULL) return;
+ 
+ 	skb->dev = wl->monitor_dev;
++#if LINUX_VERSION_CODE < KERNEL_VERSION(4, 11, 0)
+ 	skb->dev->last_rx = jiffies;
++#endif
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 22)
+ 	skb_reset_mac_header(skb);
+ #else
+--- wl-6.30.223.271/src/wl/sys/wl_cfg80211_hybrid.c~	2017-05-10 00:48:08.000000000 +0200
++++ wl-6.30.223.271/src/wl/sys/wl_cfg80211_hybrid.c	2017-05-10 00:49:17.837333867 +0200
+@@ -30,6 +30,9 @@
+ #include <linux/kthread.h>
+ #include <linux/netdevice.h>
+ #include <linux/ieee80211.h>
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 11, 0)
++#include <linux/sched/signal.h>
++#endif
+ #include <net/cfg80211.h>
+ #include <linux/nl80211.h>
+ #include <net/rtnetlink.h>
