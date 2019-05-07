@@ -1,0 +1,14 @@
+--- wl-6.30.223.271/src/wl/sys/wl_cfg80211_hybrid.c~	2019-05-07 19:17:44.000000000 +0200
++++ wl-6.30.223.271/src/wl/sys/wl_cfg80211_hybrid.c	2019-05-07 19:19:00.311600063 +0200
+@@ -464,7 +464,11 @@
+ 	ifr.ifr_data = (caddr_t)&ioc;
+ 
+ 	fs = get_fs();
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 1, 0)
++	set_fs(KERNEL_DS);
++#else
+ 	set_fs(get_ds());
++#endif
+ #if defined(WL_USE_NETDEV_OPS)
+ 	err = dev->netdev_ops->ndo_do_ioctl(dev, &ifr, SIOCDEVPRIVATE);
+ #else
