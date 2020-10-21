@@ -1,0 +1,14 @@
+--- wl-6.30.223.271/wl/src/wl/sys/wl_linux.c~	2020-10-21 08:40:00.000000000 +0200
++++ wl-6.30.223.271/wl/src/wl/sys/wl_linux.c	2020-10-21 08:41:58.566248630 +0200
+@@ -1662,7 +1662,11 @@
+ 		goto done2;
+ 	}
+ 
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 9, 0)
++	if (uaccess_kernel())
++#else
+ 	if (segment_eq(get_fs(), KERNEL_DS))
++#endif
+ 		buf = ioc.buf;
+ 
+ 	else if (ioc.buf) {
