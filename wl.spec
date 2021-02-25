@@ -18,7 +18,7 @@ exit 1
 
 %define		_duplicate_files_terminate_build	0
 
-%define		rel	12
+%define		rel	13
 %define		pname	wl
 %define		file_ver	%(echo %{version} | tr . _)
 Summary:	Broadcom 802.11 a/b/g/n hybrid Linux networking device driver
@@ -126,7 +126,7 @@ EOF\
 %else
 %define src 0
 %endif
-%setup -c -T -q -n %{pname}-%{version} -b%{src}
+%setup -c -q -n %{pname}-%{version} -a %{src}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
