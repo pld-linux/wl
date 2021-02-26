@@ -18,7 +18,7 @@ exit 1
 
 %define		_duplicate_files_terminate_build	0
 
-%define		rel	13
+%define		rel	14
 %define		pname	wl
 %define		file_ver	%(echo %{version} | tr . _)
 Summary:	Broadcom 802.11 a/b/g/n hybrid Linux networking device driver
@@ -68,9 +68,7 @@ Group:		Base/Kernel
 Release:	%{rel}
 Requires(pre):	dkms
 Requires(post):	dkms
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
+%noarchpackage
 
 %description -n dkms-%{pname}
 This package contains a DKMS-ready driver for Broadcom WL driver.
