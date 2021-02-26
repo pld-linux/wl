@@ -68,7 +68,7 @@ Group:		Base/Kernel
 Release:	%{rel}
 Requires(pre):	dkms
 Requires(post):	dkms
-%noarchpackage
+BuildArch:	noarch
 
 %description -n dkms-%{pname}
 This package contains a DKMS-ready driver for Broadcom WL driver.
