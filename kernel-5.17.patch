@@ -16,7 +16,7 @@
  static ssize_t
  wl_proc_write(struct file *filp, const char __user *buff, size_t length, loff_t *offp)
  {
-+#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 10, 0)
++#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 17, 0)
  	wl_info_t * wl = PDE_DATA(file_inode(filp));
 +#else
 +	wl_info_t * wl = pde_data(file_inode(filp));
