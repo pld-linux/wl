@@ -1,0 +1,14 @@
+--- wl-6.30.223.271/wl/src/wl/sys/wl_cfg80211_hybrid.c~	2022-10-28 22:34:15.000000000 +0200
++++ wl-6.30.223.271/wl/src/wl/sys/wl_cfg80211_hybrid.c	2022-10-28 22:50:49.322077055 +0200
+@@ -2388,7 +2388,11 @@
+ 	bss = cfg80211_get_bss(wl_to_wiphy(wl), NULL, (s8 *)&wl->bssid,
+ 	ssid->SSID, ssid->SSID_len, WLAN_CAPABILITY_ESS, WLAN_CAPABILITY_ESS);
+ 	struct cfg80211_roam_info roam_info = {
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 0, 0)
++		.links[0].bss = bss,
++#else
+ 		.bss = bss,
++#endif
+ 		.req_ie = conn_info->req_ie,
+ 		.req_ie_len = conn_info->req_ie_len,
+ 		.resp_ie = conn_info->resp_ie,
