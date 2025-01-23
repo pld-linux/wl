@@ -18,7 +18,7 @@ exit 1
 
 %define		_duplicate_files_terminate_build	0
 
-%define		rel	20
+%define		rel	21
 %define		pname	wl
 %define		file_ver	%(echo %{version} | tr . _)
 Summary:	Broadcom 802.11 a/b/g/n hybrid Linux networking device driver
@@ -52,6 +52,7 @@ Patch13:	kernel-5.18.patch
 Patch14:	kernel-6.0.patch
 Patch15:	kernel-6.1.patch
 Patch16:	kernel-6.12.patch
+Patch17:	kernel-6.13.patch
 URL:		http://www.broadcom.com/support/802.11
 BuildRequires:	rpmbuild(macros) >= 1.701
 %{?with_kernel:%{expand:%buildrequires_kernel kernel%%{_alt_kernel}-module-build >= 3:2.6.20.2}}
@@ -130,23 +131,24 @@ EOF\
 %define src 0
 %endif
 %setup -c -q -n %{pname}-%{version} -a %{src}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p2
-%patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
-%patch10 -p2
-%patch11 -p1
-%patch12 -p2
-%patch13 -p2
-%patch14 -p2
-%patch15 -p2
-%patch16 -p2
+%patch -P 0 -p1
+%patch -P 1 -p1
+%patch -P 2 -p1
+%patch -P 3 -p1
+%patch -P 4 -p1
+%patch -P 5 -p2
+%patch -P 6 -p1
+%patch -P 7 -p1
+%patch -P 8 -p1
+%patch -P 9 -p1
+%patch -P 10 -p2
+%patch -P 11 -p1
+%patch -P 12 -p2
+%patch -P 13 -p2
+%patch -P 14 -p2
+%patch -P 15 -p2
+%patch -P 16 -p2
+%patch -P 17 -p2
 
 mkdir wl
 mv lib src Makefile wl/

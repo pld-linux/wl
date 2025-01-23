@@ -1,0 +1,11 @@
+--- wl-6.30.223.271/wl/src/include/linuxver.h~	2015-09-19 00:47:30.000000000 +0200
++++ wl-6.30.223.271/wl/src/include/linuxver.h	2025-01-23 01:32:25.716665268 +0100
+@@ -147,7 +147,7 @@
+ #include <linux/sched.h>
+ #endif
+ 
+-#if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 29)
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 29) && LINUX_VERSION_CODE < KERNEL_VERSION(6, 13, 0)
+ #include <net/lib80211.h>
+ #endif
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(2, 6, 29)
