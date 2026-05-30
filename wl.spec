@@ -18,7 +18,7 @@ exit 1
 
 %define		_duplicate_files_terminate_build	0
 
-%define		rel	24
+%define		rel	25
 %define		pname	wl
 %define		file_ver	%(echo %{version} | tr . _)
 Summary:	Broadcom 802.11 a/b/g/n hybrid Linux networking device driver
@@ -82,7 +82,7 @@ BuildArch:	noarch
 %description -n dkms-%{pname}
 This package contains a DKMS-ready driver for Broadcom WL driver.
 
-%define	kernel_pkg()\
+%define	kernel_pkg() \
 %package -n kernel%{_alt_kernel}-net-wl\
 Summary:	Broadcom 802.11 a/b/g/n hybrid Linux networking device driver\
 Release:	%{rel}@%{_kernel_ver_str}\
@@ -119,7 +119,7 @@ EOF\
 %depmod %{_kernel_ver}\
 %{nil}
 
-%define build_kernel_pkg()\
+%define build_kernel_pkg() \
 %{__make} -C wl KERNELRELEASE=%{_kernel_ver} KBUILD_DIR=%{_kernelsrcdir} clean\
 %{__make} -C wl KERNELRELEASE=%{_kernel_ver} KBUILD_DIR=%{_kernelsrcdir}\
 %install_kernel_modules -D installed -m wl/wl -d kernel/drivers/net/wireless\
